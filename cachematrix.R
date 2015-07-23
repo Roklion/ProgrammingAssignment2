@@ -3,22 +3,22 @@
 ##  identical operations on this matrix would directly use the cached value
 
 ## makeCacheMatrix function generates a list of functions as the following:
-##  1. setmatrix: cache a matrix
-##  2. getmatrix: retrieve cached matrix
+##  1. set: cache a matrix
+##  2. get: retrieve cached matrix
 ##  3. setinverse: cache the inverse of the cached matrix
 ##  4. getinverse: retrieve the cached inverse of the cached matrix
 
 makeCacheMatrix <- function(x = matrix()) {
     inv <- NULL
-    setmatrix <- function(y) {
+    set <- function(y) {
         x <<- y
         inv <<- NULL
     }
-    getmatrix <- function() x
+    get <- function() x
     setinverse <- function(inver) inv <<- inver
     getinverse <- function() inv
-    list(setmatrix = setmatrix,
-         getmatrix = getmatrix,
+    list(set = set,
+         get = get,
          setinverse = setinverse,
          getinverse = getinverse)
 }
@@ -37,7 +37,7 @@ cacheSolve <- function(x, ...) {
         return(inv)
     }
     # if cached inverse is NULL, calculate the inverse
-    m <- x$getmatrix()
+    m <- x$get()
     inv <- solve(m, ...)
     # cache newly calculated inverse
     x$setinverse(inv)
